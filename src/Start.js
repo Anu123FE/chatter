@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { ImageBackground, StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
+import { ImageBackground, StyleSheet, View, Text, TextInput, Button, Alert, Pressable } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import bgImage from "../assets/images/bg.jpeg";
 
 export default class Start extends React.Component {
  constructor(props) {
    super(props);
-   this.state = { text: '' };
+   this.state = { text: '', bgColor: '' };
  }
 
  alertMyText (input) {
@@ -38,21 +39,59 @@ colors = {
         <View style={styles.colorSwatch}>
           <Text style={styles.subtitle}>Choose Background Color</Text>
           <View style={styles.swatches}>
-              <View style={styles.swatch1}></View>
-              <View style={styles.swatch2}></View>
-              <View style={styles.swatch3}></View>
-              <View style={styles.swatch4}></View>
-          </View>
+            <TouchableOpacity
+             onPress={() => this.setState({
+               bgColor: this.colors.orange
+             })}>
+            <View style={styles.swatch1}></View>
+            </TouchableOpacity>
+           
+            <TouchableOpacity
+             onPress={() => this.setState({
+               bgColor: this.colors.magenta
+             })}>
+            <View style={styles.swatch2}></View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+             onPress={() => this.setState({
+               bgColor: this.colors.fucsia
+             })}>
+            <View style={styles.swatch3}></View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+             onPress={() => this.setState({
+               bgColor: this.colors.purple
+             })}>
+            <View style={styles.swatch4}></View>
+            </TouchableOpacity>
+
+            </View>
         </View>
         <Button
           style={styles.btn}
           title="Start Chatting"
           color={"#6705e9"}
           containerViewStyle={{ width: "100%", marginLeft: 0 }}
-          onPress={() =>
-            this.alertMyText({text: this.state.text})
-          }
+          onPress={() => this.props.navigation.navigate('Chat', {
+            name: this.state.text,
+            bgColor: this.state.bgColor
+          })}
         />
+
+{/* <Pressable
+          style={styles.btn}
+          // title="Start Chatting"
+          // color={"#6705e9"}
+          // containerViewStyle={{ width: "100%", marginLeft: 0 }}
+          onPress={() => this.props.navigation.navigate('Chat', {
+            name: this.state.text
+          })}
+        >
+          <Text>Start Chatting</Text>
+          </Pressable> */}
+
       </View>
     </ImageBackground>
   </View>

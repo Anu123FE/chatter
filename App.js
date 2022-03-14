@@ -1,6 +1,6 @@
 import React from "react";
 import Start from "./src/Start";
-// import Chat from "./src/Chat";
+import Chat from "./src/Chat";
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -17,7 +17,7 @@ export default class App extends React.Component {
             component={Start}
             options={{ title: "Welcome to Chatter!" }}
           />
-          {/* <Stack.Screen name="Chat" component={Chat} /> */}
+          <Stack.Screen name="Chat" component={Chat} />
         </Stack.Navigator>
       </NavigationContainer>
     );
