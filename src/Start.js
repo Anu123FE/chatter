@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
+
+//import features from react-native
 import { ImageBackground, StyleSheet, View, Text, TextInput, Button, Alert, Pressable } from 'react-native';
+
+// import TouchableOpacity feature
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import bgImage from "../assets/images/bg.jpeg";
 
 export default class Start extends React.Component {
+
+  //creating state object in the class constructor
  constructor(props) {
    super(props);
    this.state = { text: '', bgColor: '' };
@@ -13,6 +19,7 @@ export default class Start extends React.Component {
   Alert.alert(input.text);
 }
 
+//adding colors for the Chat screen
 colors = {
   orange: "#f44336",
   magenta: "#e91e63",
@@ -22,6 +29,10 @@ colors = {
 
  render() {
    return (
+
+    //adding background image and text element under TextInput component to display user's text input
+    //Also using View to wrap one component within another component
+    //TouchableOpacity is used with onPress event to set states for chatscreen to different color swatches
     <View >
     <ImageBackground
      source={bgImage}
@@ -70,6 +81,7 @@ colors = {
             </View>
         </View>
         <Button
+        //adding onPress (callback function when user presses the button), title and styling to button
           style={styles.btn}
           title="Start Chatting"
           color={"#6705e9"}
