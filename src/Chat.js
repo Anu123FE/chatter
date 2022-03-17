@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, } from 'react-native';
+import { View, Text, KeyboardAvoidingView  } from 'react-native';
 //importing GiftedChat
 import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 
@@ -63,7 +63,7 @@ export default class Chat extends React.Component {
   render() {
     return (
       //adding View to wrap one component within another component along with text element
-      <View style={{flex:1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.props.route.params.bgColor }}>
+      <View style={{flex:1, backgroundColor: this.props.route.params.bgColor }}>
         <GiftedChat
            renderBubble={this.renderBubble.bind(this)}
            messages={this.state.messages}
@@ -74,6 +74,8 @@ export default class Chat extends React.Component {
                   avatar: 'user'
                   }}
         />
+        { Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null
+ }
       </View>
     )
   }
