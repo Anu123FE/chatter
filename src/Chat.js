@@ -4,7 +4,8 @@ import { View, Text, KeyboardAvoidingView  } from 'react-native';
 import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 
 export default class Chat extends React.Component {
-
+    
+  //setting the state to null
     constructor() {
       super();
       this.state = {
@@ -16,7 +17,7 @@ export default class Chat extends React.Component {
         }
       }
     }
-
+    //setting the message state - static system message and a normal message
     componentDidMount() {
      this.props.navigation.setOptions({title: this.props.route.params.name})
       this.setState({
@@ -40,7 +41,8 @@ export default class Chat extends React.Component {
         ],
       })
     }
-  
+   
+    //adding message bubbles
     renderBubble(props) {
       return (
         <Bubble
@@ -53,7 +55,7 @@ export default class Chat extends React.Component {
         />
       )
     }
-
+    //adding onSend to get the message to be sent upon clicking "Send"
     onSend(messages = []) {
       this.setState(previousState => ({
         messages: GiftedChat.append(previousState.messages, messages),
@@ -62,7 +64,7 @@ export default class Chat extends React.Component {
 
   render() {
     return (
-      //adding View to wrap one component within another component along with text element
+      //adding View to wrap one component within another component along with text element and adding GiftedChat and KeyboardAvoidingView for Android
       <View style={{flex:1, backgroundColor: this.props.route.params.bgColor }}>
         <GiftedChat
            renderBubble={this.renderBubble.bind(this)}
