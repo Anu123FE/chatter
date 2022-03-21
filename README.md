@@ -11,6 +11,7 @@ The user can then select the background color for the chat screen before joining
 # TECH STACKS
 React Native
 Expo
+GiftedChat
 
 
 # LAUNCHING THE APP:
