@@ -2,12 +2,29 @@ import React from 'react';
 import { View, Text, KeyboardAvoidingView  } from 'react-native';
 //importing GiftedChat
 import { GiftedChat, Bubble } from 'react-native-gifted-chat';
+//importing Firestore
+import firebase from 'firebase';
+import 'firebase/firestore';
 
 export default class Chat extends React.Component {
     
   //setting the state to null
     constructor() {
       super();
+      const firebaseConfig = {
+        apiKey: "AIzaSyBnC3DuJo06ZvH808y5ActI5ZjWgMOo8RE",
+        authDomain: "chatter-e798d.firebaseapp.com",
+        projectId: "chatter-e798d",
+        storageBucket: "chatter-e798d.appspot.com",
+        messagingSenderId: "660443184971",
+        appId: "1:660443184971:web:7cddc906ddbabc8ce0f2ce",
+        measurementId: "G-KLQ4BSWJV0"
+      };
+      if (!firebase.apps.length){
+        firebase.initializeApp(firebaseConfig);
+        }
+        this.referenceChatMessages = firebase.firestore().collection("messages");
+      
       this.state = {
         messages: [],
         user: {
@@ -17,6 +34,24 @@ export default class Chat extends React.Component {
         }
       }
     }
+    onCollectionUpdate = (querySnapshot) => {
+      const messages = [];
+      // go through each document
+      querySnapshot.forEach((doc) => {
+        // get the QueryDocumentSnapshot's data
+        let data = doc.data();
+        messages.push({
+          _id: data._id,
+          text: data.text,
+          createdAt: data.createdAt.toDate(),
+          user: data.user,
+        });
+      });
+      this.setState({
+        messages,
+      });
+    };
+    
     //setting the message state - static system message and a normal message
     componentDidMount() {
      this.props.navigation.setOptions({title: this.props.route.params.name})
@@ -40,6 +75,7 @@ export default class Chat extends React.Component {
           },
         ],
       })
+      this.unsubscribe = this.referenceChatMessages.onSnapshot(this.onCollectionUpdate)
     }
    
     //adding message bubbles
@@ -59,7 +95,16 @@ export default class Chat extends React.Component {
     onSend(messages = []) {
       this.setState(previousState => ({
         messages: GiftedChat.append(previousState.messages, messages),
-      }))
+      }),
+      ()=> {
+        const message = this.state.messages[0];
+        this.referenceChatMessages.add({
+          _id: message._id,
+          text: message.text,
+          createdAt: message.createdAt,
+          user: this.state.user,
+        })
+      })
     }
 
   render() {

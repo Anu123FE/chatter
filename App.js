@@ -13,6 +13,10 @@ import { createStackNavigator } from "@react-navigation/stack";
 // import TextInput and TouchableOpacity for swatches
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 
+//importing firestore
+const firebase = require('firebase');
+require('firebase/firestore');
+
 export default class App extends React.Component {
   render() {
     
