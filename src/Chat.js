@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, KeyboardAvoidingView  } from 'react-native';
 //importing GiftedChat
-import { GiftedChat, Bubble } from 'react-native-gifted-chat';
+import { GiftedChat, Bubble, SystemMessage } from 'react-native-gifted-chat';
 //importing Firestore
 import firebase from 'firebase';
 import 'firebase/firestore';
@@ -28,7 +28,7 @@ export default class Chat extends React.Component {
       this.state = {
         messages: [],
         user: {
-          _id: 2,
+          _id: 22,
           name: 'React Native',
           avatar: 'https://placeimg.com/140/140/any',
         }
@@ -53,31 +53,50 @@ export default class Chat extends React.Component {
     };
     
     //setting the message state - static system message and a normal message
-    componentDidMount() {
-     this.props.navigation.setOptions({title: this.props.route.params.name})
-      this.setState({
-        messages: [
-          {
-            _id: 1,
-            text: 'Hello developer',
-            createdAt: new Date(),
-            user: {
-              _id: 2,
-              name: 'React Native',
-              avatar: 'https://placeimg.com/140/140/any',
-            },
-          },
-          {
-            _id: 2,
-            text: 'You have entered the chat',
-            createdAt: new Date(),
-            system: true,
-          },
-        ],
-      })
-      this.unsubscribe = this.referenceChatMessages.onSnapshot(this.onCollectionUpdate)
-    }
+    //componentDidMount() {
+    // this.props.navigation.setOptions({title: this.props.route.params.name})
+      // this.setState({
+      //   messages: [
+      //     {
+      //       _id: 1,
+      //       text: 'Hello developer',
+      //       createdAt: new Date(),
+      //       user: {
+      //         _id: 2,
+      //         name: 'React Native',
+      //         avatar: 'https://placeimg.com/140/140/any',
+      //       },
+      //     },
+      //     {
+      //       _id: 3,
+      //       text: 'You have entered the chat',
+      //       createdAt: new Date(),
+      //       system: true,
+      //     },
+      //   ],
+      // })
+      //this.unsubscribe = this.referenceChatMessages.onSnapshot(this.onCollectionUpdate)
+    //}
    
+
+    componentDidMount() {
+      this.props.navigation.setOptions({title: this.props.route.params.name})
+      this.unsubscribe = this.referenceChatMessages
+      .orderBy("createdAt", "desc")
+      .onSnapshot(this.onCollectionUpdate);
+      this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
+        if (!user) {
+          console.log(user)
+          firebase.auth().signInAnonymously();
+        }
+        this.setState({
+          uid: user.uid,
+          messages: [],
+        });
+       
+      });
+    }
+
     //adding message bubbles
     renderBubble(props) {
       return (
@@ -107,18 +126,26 @@ export default class Chat extends React.Component {
       })
     }
 
+
+    componentWillUnmount() {
+      this.unsubscribe();
+   }
+
   render() {
     return (
       //adding View to wrap one component within another component along with text element and adding GiftedChat and KeyboardAvoidingView for Android
       <View style={{flex:1, backgroundColor: this.props.route.params.bgColor }}>
         <GiftedChat
            renderBubble={this.renderBubble.bind(this)}
+           renderUsernameOnMessage={true}
+           renderSystemMessage={(props)=><SystemMessage
+            {...props}/>}
            messages={this.state.messages}
            onSend={messages => this.onSend(messages)}
              user={{
-                  _id: 1,
+                  _id:this.state.user._id,
                   name: this.state.name,
-                  avatar: 'user'
+                  avatar: "https://placeimg.com/140/140/any",
                   }}
         />
         { Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null
