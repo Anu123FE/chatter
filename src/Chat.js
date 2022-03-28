@@ -86,7 +86,6 @@ export default class Chat extends React.Component {
       .onSnapshot(this.onCollectionUpdate);
       this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
         if (!user) {
-          console.log(user)
           firebase.auth().signInAnonymously();
         }
         this.setState({
@@ -105,6 +104,9 @@ export default class Chat extends React.Component {
           wrapperStyle={{
             right: {
               backgroundColor: '#000'
+            },
+            left: {
+              backgroundColor: '#e2bff5'
             }
           }}
         />
@@ -143,13 +145,13 @@ export default class Chat extends React.Component {
            messages={this.state.messages}
            onSend={messages => this.onSend(messages)}
              user={{
-                  _id:this.state.user._id,
-                  name: this.state.name,
+                  _id: Math.random(),
+                  name: this.props.route.params.name,
                   avatar: "https://placeimg.com/140/140/any",
                   }}
         />
-        { Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null
- }
+        { Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null }
+ 
       </View>
     )
   }
