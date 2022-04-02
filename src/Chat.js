@@ -5,6 +5,7 @@ import { GiftedChat, Bubble, SystemMessage } from 'react-native-gifted-chat';
 //importing Firestore
 import firebase from 'firebase';
 import 'firebase/firestore';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default class Chat extends React.Component {
     
@@ -27,11 +28,12 @@ export default class Chat extends React.Component {
       
       this.state = {
         messages: [],
+        uid: 0,
         user: {
-          _id: 22,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        }
+          _id: "",
+          name: "",
+          avatar: "",
+        },
       }
     }
     onCollectionUpdate = (querySnapshot) => {
@@ -44,12 +46,20 @@ export default class Chat extends React.Component {
           _id: data._id,
           text: data.text,
           createdAt: data.createdAt.toDate(),
-          user: data.user,
+          user: {
+            _id: data.user._id,
+            name: data.user.name,
+            //avatar: data.user.avatar,
+            avatar: "https://placeimg.com/140/140/any"
+          },
+          image: data.image || null,
+          location: data.location || null,
         });
       });
       this.setState({
         messages,
       });
+      console.log(this.state.messages)
     };
     
     //setting the message state - static system message and a normal message
@@ -94,21 +104,38 @@ export default class Chat extends React.Component {
         });
        
       });
+     
     }
 
     //adding message bubbles
     renderBubble(props) {
       return (
         <Bubble
-          {...props}
-          wrapperStyle={{
-            right: {
-              backgroundColor: '#000'
-            },
-            left: {
-              backgroundColor: '#e2bff5'
-            }
-          }}
+            {...props}
+            position={this.state.messages.filter(x=>x.user.name == this.props.route.params.name) ? 'right' : 'left'}
+            // position={this.state.messages.filter(x=>x._id==this.props.route.params.name) ? 'right': 'left'}
+            textStyle={{
+                right: {
+                    color: 'white',
+                    fontSize: 15
+                },
+                left: {
+                    color: 'black',
+                    fontSize: 16
+                },
+
+            }}
+            wrapperStyle={{
+                   right: {
+                   color: 'black',
+                    backgroundColor: 'blue',
+                    marginRight: 5,
+                    marginVertical: 5
+                },
+                left: {
+                    marginVertical: 5
+                },
+            }}
         />
       )
     }
@@ -119,17 +146,23 @@ export default class Chat extends React.Component {
       }),
       ()=> {
         const message = this.state.messages[0];
+        console.log(message)
         this.referenceChatMessages.add({
           _id: message._id,
           text: message.text,
           createdAt: message.createdAt,
-          user: this.state.user,
+          user: {
+            _id: Math.random(),
+            avatar: 'https://placeimg.com/140/140/any',
+            name: this.props.route.params.name
+          },
         })
       })
     }
 
 
     componentWillUnmount() {
+      console.log(this.state.messages)
       this.unsubscribe();
    }
 
