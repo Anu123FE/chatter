@@ -50,12 +50,8 @@ export default class Chat extends React.Component {
       messages.push({
         _id: data._id,
         text: data.text,
-        createdAt: data.createdAt.toDate(),
-        user: {
-          _id: data.user._id,
-          name: data.user.name,
-          avatar: "https://placeimg.com/140/140/any",
-        },
+        createdAt: doc.data().createdAt.toDate().toString(),
+        user: {...data.user},
         image: data.image || null,
         location: data.location || null,
       });
