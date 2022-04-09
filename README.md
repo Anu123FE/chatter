@@ -37,3 +37,7 @@ Home Screen upon launch of the App:
 
 <img width="496" alt="Screen Shot 2022-03-14 at 8 21 57 PM" src="https://user-images.githubusercontent.com/80176993/158283236-58fb1ce8-0b10-49b9-ba46-d57012d1040f.png">
 
+
+After logging into the chat screen:
+
+<img width="472" alt="Screen Shot 2022-04-09 at 12 25 03 PM" src="https://user-images.githubusercontent.com/80176993/162582706-006ac89c-de9a-4e26-99a4-abba494ca56c.png">
