@@ -7,11 +7,14 @@ Chatter is a chat app for mobile devices created using React Native. The app wil
 # FEATURES:
 A start page where users can enter their name and press a button after selecting a color swatch
 The user can then select the background color for the chat screen before joining the chat.
+Two different users can login to the chat to exchange thoughts and ideas.
+The messages can be stored on Firebase when connected to the internet. When offline, the messages are stored on client-side using asyncstorage from React Native and are loaded from the cached data.
 
 # TECH STACKS
 React Native
 Expo
 GiftedChat
+Firebase - for message storage (serverside)
 
 
 # LAUNCHING THE APP:
