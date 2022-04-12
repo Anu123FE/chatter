@@ -9,8 +9,8 @@ import MapView from "react-native-maps";
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
-import MapView from 'react-native-maps';
 
+import CustomActions from './CustomActions';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBnC3DuJo06ZvH808y5ActI5ZjWgMOo8RE",
@@ -208,6 +208,9 @@ export default class Chat extends React.Component {
     }
   }
 
+  renderCustomActions(props) {
+    return <CustomActions {...props} />;
+  }
 
   renderCustomView(props) {
     const { currentMessage } = props;
@@ -240,6 +243,7 @@ export default class Chat extends React.Component {
       >
         <GiftedChat
           renderBubble={this.renderBubble.bind(this)}
+          renderActions={this.renderCustomActions}
           renderInputToolbar={this.renderInputToolbar.bind(this)}
           renderCustomView={this.renderCustomView}
           messages={this.state.messages}
