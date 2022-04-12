@@ -6,6 +6,11 @@ import "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from "@react-native-community/netinfo";
 import MapView from "react-native-maps";
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
+import * as Location from 'expo-location';
+import MapView from 'react-native-maps';
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyBnC3DuJo06ZvH808y5ActI5ZjWgMOo8RE",
@@ -33,11 +38,13 @@ export default class Chat extends React.Component {
       image: null,
       location: null,
     };
-
+    
+    //initializing firebase
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
-
+    
+    //reference to the collection of messages in firebase
     this.referenceChatMessages = firebase.firestore().collection("messages");
   }
 
@@ -62,6 +69,7 @@ export default class Chat extends React.Component {
     this.saveMessages();
   };
 
+   //save messages to asyncStorage
   getMessages = async () => {
     let messages = "";
     try {
@@ -74,6 +82,7 @@ export default class Chat extends React.Component {
     }
   };
 
+  //to delete messages
   async deleteMessages() {
     try {
       await AsyncStorage.removeItem("messages");
@@ -101,7 +110,8 @@ export default class Chat extends React.Component {
     let { name } = this.props.route.params;
     // This will add the user name at the top of the screen
     this.props.navigation.setOptions({ title: name });
-
+   
+    //if user is online
     NetInfo.fetch().then((connection) => {
       if (connection.isConnected) {
         this.setState({ isConnected: true });
