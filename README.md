@@ -15,6 +15,11 @@ React Native
 Expo
 GiftedChat
 Firebase - for message storage (serverside)
+Expo's ImagePicker API - launchImageLibraryAsync, launchCameraAsync
+Expo's Location API - MapView Component, latitudeDelta, longitudeDelta to set the size of the shared map
+Expo's Blob function
+GiftedChat's renderActions prop, ActionSheet Component
+
 
 
 # LAUNCHING THE APP:
@@ -29,6 +34,18 @@ Press a │ open Android
 › shift+d │ toggle auto opening developer tools on startup (disabled)
 
 › Press ? │ show all commands
+
+Install permissions for image picker
+expo install expo-permissions
+expo install expo-image-picker
+
+Install access to geo-location sharing
+expo install expo-location
+expo install react-native-maps
+
+Turn files into Blobs to store in Firebase
+use expo's blob() function
+
 
 
 # SCREENSHOTS ATTACHED:
